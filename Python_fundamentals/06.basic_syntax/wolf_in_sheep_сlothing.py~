@@ -1,0 +1,7 @@
+count_animals = 0
+
+while (animal != "wolf"):
+    count_animals += 1
+else
+    if count_animals = 0:
+        
