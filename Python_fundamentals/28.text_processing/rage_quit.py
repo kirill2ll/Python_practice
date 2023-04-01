@@ -8,36 +8,44 @@
 
 line = input().upper()
 
+#the output text
 final_string = ""
 
+#creating temporary string that will be duplicated several time A3 => AAA
 current_string_to_repeat = ""
 
-#count of unique symbols
+#creating a string for the digit after the symbols that should be repeated A10 => AAAAAAAAAA
+current_digit_string = ""
+
+# count of unique symbols
 unique_symbols = 0
 
-for ch in line:
-    if ch.isdigit():
-        final_string += current_string_to_repeat * int(ch)
-        current_string_to_repeat = ""
+for i in range(len(line)):
+    ch = line[i]
 
-    else: #when ch is a letter or symbol eg @ # etc
+    if ch.isdigit(): #when ch is a digit
+        #adding symbol to the digit string e.g. 1 + 3 + 2 => 132
+        current_digit_string += ch
+
+        #checking if it's not the last symbol of our main string to avoid out of range
+        if i == len(line) - 1:
+            final_string += current_string_to_repeat * int(current_digit_string)
+        #checking if the next symbol is a digit and adding continue so we can keep adding digits 1 + 3 + 2 => 132
+        elif line[i + 1].isdigit():
+            continue
+        #adding symbols to the output string by multiplying it with the digit
+        else:
+            final_string += current_string_to_repeat * int(current_digit_string)
+            #resetting
+            current_string_to_repeat = ""
+            current_digit_string = ""
+
+    else:  # when ch is a letter or symbol eg @ # etc
         current_string_to_repeat += ch
         if ch not in final_string:
             unique_symbols += 1
 
 
-# def count_unique_symbols(my_text):
-#     unique_symbols = ""
-#     unique_symbols_count = 0
-#
-#     for ch in my_text:
-#         if ch not in unique_symbols:
-#             unique_symbols_count += 1
-#             unique_symbols += ch
-#
-#     return unique_symbols_count
-
-
-#symbols = count_unique_symbols(final_string)
-
 print(f"Unique symbols used: {unique_symbols} \n{final_string}")
+
+# https://softuni.bg/forum/43347/python-fundamentals-text-processing-rage-quit
