@@ -4,4 +4,31 @@
 # After decrypting the message, you will get a type of treasure and its coordinates. The type will be between the symbol "&", and the coordinates - between the symbols "<' and '>'.
 # For each line print the type and the coordinates in the format "Found {type} at {coordinates}".
 
+import re
 
+keys = list(map(int, input().split()))
+
+
+while True:
+    message = input()
+    decoded_message = ""
+    key_index = 0
+
+    if message == "find":
+        break
+
+    for ch in message:
+        new_ch_num = ord(ch) - keys[key_index]
+        key_index += 1
+        decoded_message += chr(new_ch_num)
+
+        if key_index >= len(keys):
+            key_index = 0
+
+    treasure_pattern = r'&([0-9a-zA-Z]+)&'
+    coordinates_pattern = r'<([0-9a-zA-Z]+)>'
+
+    treasure = re.search(treasure_pattern, decoded_message)
+    coordinates = re.search(coordinates_pattern, decoded_message)
+
+    print(f"Found {treasure.group(1)} at {coordinates.group(1)}")
